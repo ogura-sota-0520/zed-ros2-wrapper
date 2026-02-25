@@ -46,8 +46,8 @@
             auto_whitebalance: true # [DYNAMIC]
             whitebalance_temperature: 42 # [DYNAMIC] - [28,65] x100 - works only if `auto_whitebalance` is false
             enable_24bit_output: false # [SDK >= 5.1] Enable BGR 24-bit output for lower bandwidth usage. If false, BGRA 32-bit output is used (old way before SDK v5.1)
-            publish_rgb: true # Advertise the RGB image topics that are published only if a node subscribes to them
-            publish_left_right: false # Advertise the left and right image topics that are published only if a node subscribes to them
+            publish_rgb: false # Advertise the RGB image topics that are published only if a node subscribes to them
+            publish_left_right: true # Advertise the left and right image topics that are published only if a node subscribes to them
             publish_raw: false # Advertise the raw image topics that are published only if a node subscribes to them
             publish_gray: false # Advertise the gray image topics that are published only if a node subscribes to them
             publish_stereo: false # Advertise the stereo image topic that is published only if a node subscribes to it
@@ -55,10 +55,10 @@
             # 'zedx.yaml', 'zedxmini.yaml', 'virtual.yaml' files
 
         sensors:
-            publish_imu_tf: true # [overwritten by launch file options] enable/disable the IMU TF broadcasting
+            publish_imu_tf: false # [overwritten by launch file options] enable/disable the IMU TF broadcasting
             sensors_image_sync: false # Synchronize Sensors messages with latest published video/depth message
             sensors_pub_rate: 100. # frequency of publishing of sensors data. MAX: 400. - MIN: grab rate
-            publish_imu: true # Advertise the IMU topic that is published only if a node subscribes to it
+            publish_imu: false # Advertise the IMU topic that is published only if a node subscribes to it
             publish_imu_raw: false # Advertise the raw IMU topic that is published only if a node subscribes to it
             publish_cam_imu_transf: false # Advertise the CAMERA-IMU transformation topic that is published only if a node subscribes to it
             publish_mag: false # Advertise the magnetometer topic that is published only if a node subscribes to it
@@ -81,7 +81,7 @@
             publish_roi_mask: false # Advertise the ROI mask image topic that is published only if a node subscribes to it
 
         depth:
-            depth_mode: 'NEURAL_LIGHT' # Matches the ZED SDK setting: 'NONE', 'NEURAL_LIGHT', 'NEURAL', 'NEURAL_PLUS' - Note: if 'NONE' all the modules that requires depth extraction are disabled by default (Pos. Tracking, Obj. Detection, Mapping, ...)
+            depth_mode: 'NONE' # Matches the ZED SDK setting: 'NONE', 'NEURAL_LIGHT', 'NEURAL', 'NEURAL_PLUS' - Note: if 'NONE' all the modules that requires depth extraction are disabled by default (Pos. Tracking, Obj. Detection, Mapping, ...)
             depth_stabilization: 30 # Forces positional tracking to start if major than 0 - Range: [0,100]
             openni_depth_mode: false # 'false': 32bit float [meters], 'true': 16bit unsigned int [millimeters]
             point_cloud_freq: 10.0 # [DYNAMIC] Frequency of the pointcloud publishing. This value must be equal or less than the camera framerate.
@@ -89,23 +89,23 @@
             depth_confidence: 95 # [DYNAMIC]
             depth_texture_conf: 100 # [DYNAMIC]
             remove_saturated_areas: true # [DYNAMIC]
-            publish_depth_map: true # Advertise the depth map topics that are published only if a node subscribes to them
+            publish_depth_map: false # Advertise the depth map topics that are published only if a node subscribes to them
             publish_depth_info: false # Advertise the depth info topic that is published only if a node subscribes to it
-            publish_point_cloud: true # Advertise the point cloud topic that is published only if a node subscribes to it
+            publish_point_cloud: false # Advertise the point cloud topic that is published only if a node subscribes to it
             publish_depth_confidence: false # Advertise the depth confidence topic that is published only if a node subscribes to it
             publish_disparity: false # Advertise the disparity topic that is published only if a node subscribes to it
             # Other parameters are defined, according to the camera model, in the 'zed.yaml', 'zedm.yaml', 'zed2.yaml', 'zed2i.yaml'
             # 'zedx.yaml', 'zedxmini.yaml', 'virtual.yaml' files
 
         pos_tracking:
-            pos_tracking_enabled: true # True to enable positional tracking from start
+            pos_tracking_enabled: false # True to enable positional tracking from start
             pos_tracking_mode: 'GEN_3' # Matches the ZED SDK setting: 'GEN_1', 'GEN_2', 'GEN_3'
-            imu_fusion: true # enable/disable IMU fusion. When set to false, only the optical odometry will be used.
-            publish_tf: true # [overwritten by launch file options] publish `odom -> camera_link` TF
-            publish_map_tf: true # [overwritten by launch file options] publish `map -> odom` TF
+            imu_fusion: false # enable/disable IMU fusion. When set to false, only the optical odometry will be used.
+            publish_tf: false # [overwritten by launch file options] publish `odom -> camera_link` TF
+            publish_map_tf: false # [overwritten by launch file options] publish `map -> odom` TF
             map_frame: 'map'
             odometry_frame: 'odom'
-            area_memory: true # Enable to detect loop closure
+            area_memory: false # Enable to detect loop closure
             area_file_path: '' # Path to the area memory file for relocalization and loop closure in a previously explored environment. 
             enable_localization_only: false # If true, the camera will only localize in the loaded area memory without updating the map with new information.
             save_area_memory_on_closing: false # Save Area memory before closing the camera if `area_file_path` is not empty. You can also use the `save_area_memory` service to save the area memory at any time.
@@ -114,7 +114,7 @@
             publish_lm_skip_frame: 5 # Publish the landmarks every X frames to reduce bandwidth. Set to 0 to publish all landmarks
             depth_min_range: 0.0 # Set this value for removing fixed zones of the robot in the FoV of the camerafrom the visual odometry evaluation
             set_as_static: false # If 'true' the camera will be static and not move in the environment
-            set_gravity_as_origin: true # If 'true' align the positional tracking world to imu gravity measurement. Keep the yaw from the user initial pose.
+            set_gravity_as_origin: false # If 'true' align the positional tracking world to imu gravity measurement. Keep the yaw from the user initial pose.
             floor_alignment: false # Enable to automatically calculate camera/floor offset
             initial_base_pose: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] # Initial position of the `camera_link` frame in the map -> [X, Y, Z, R, P, Y]
             path_pub_rate: 2.0 # [DYNAMIC] - Camera trajectory publishing frequency
@@ -123,7 +123,7 @@
             fixed_z_value: 0.0 # Value to be used for Z coordinate if `two_d_mode` is true
             transform_time_offset: 0.0 # The value added to the timestamp of `map->odom` and `odom->camera_link` transform being generated
             reset_pose_with_svo_loop: true # Reset the camera pose the `initial_base_pose` when the SVO loop is enabled and the SVO playback reaches the end of the file.
-            publish_odom_pose: true # Advertise the odometry and pose topics that are published only if a node subscribes to them
+            publish_odom_pose: false # Advertise the odometry and pose topics that are published only if a node subscribes to them
             publish_pose_cov: false # Advertise the pose with covariance topic that is published only if a node subscribes to it
             publish_cam_path: false # Advertise the camera odometry and pose path topics that are published only if a node subscribes to them
 
@@ -133,7 +133,7 @@
             gnss_zero_altitude: false # Set to `true` to ignore GNSS altitude information
             h_covariance_mul: 1.0 # Multiplier factor to be applied to horizontal covariance of the received fix (plane X/Y)
             v_covariance_mul: 1.0 # Multiplier factor to be applied to vertical covariance of the received fix (Z axis)
-            publish_utm_tf: true # Publish `utm` -> `map` TF
+            publish_utm_tf: false # Publish `utm` -> `map` TF
             broadcast_utm_transform_as_parent_frame: false # if 'true' publish `utm` -> `map` TF, otherwise `map` -> `utm`
             enable_reinitialization: false # determines whether reinitialization should be performed between GNSS and VIO fusion when a significant disparity is detected between GNSS data and the current fusion data. It becomes particularly crucial during prolonged GNSS signal loss scenarios.
             enable_rolling_calibration: true # If this parameter is set to true, the fusion algorithm will used a rough VIO / GNSS calibration at first and then refine it. This allow you to quickly get a fused position.
@@ -154,7 +154,7 @@
 
         object_detection:
             od_enabled: false # True to enable Object Detection
-            enable_tracking: true # Whether the object detection system includes object tracking capabilities across a sequence of images.
+            enable_tracking: false # Whether the object detection system includes object tracking capabilities across a sequence of images.
             detection_model: 'MULTI_CLASS_BOX_FAST' # 'MULTI_CLASS_BOX_FAST', 'MULTI_CLASS_BOX_MEDIUM', 'MULTI_CLASS_BOX_ACCURATE', 'PERSON_HEAD_BOX_FAST', 'PERSON_HEAD_BOX_ACCURATE', 'CUSTOM_YOLOLIKE_BOX_OBJECTS'
             max_range: 20.0 # [m] Upper depth range for detections.The value cannot be greater than 'depth.max_depth'
             filtering_mode: 'NMS3D' # Filtering mode that should be applied to raw detections: 'NONE', 'NMS3D', 'NMS3D_PER_CLASS'
@@ -170,7 +170,7 @@
             max_range: 15.0 # [m] Defines a upper depth range for detections
             body_kp_selection: 'FULL' # 'FULL', 'UPPER_BODY'
             enable_body_fitting: false # Defines if the body fitting will be applied
-            enable_tracking: true # Defines if the object detection will track objects across images flow
+            enable_tracking: false # Defines if the object detection will track objects across images flow
             prediction_timeout_s: 0.5 # During this time [sec], the skeleton will have OK state even if it is not detected. Set this parameter to 0 to disable SDK predictions
             confidence_threshold: 50.0 # [DYNAMIC] - Minimum value of the detection confidence of skeleton key points [0,99]
             minimum_keypoints_threshold: 5 # [DYNAMIC] - Minimum number of skeleton key points to be detected for a valid skeleton
